@@ -1,0 +1,30 @@
+<launch>
+
+    <arg name="project" default="lio_sam"/>
+    
+    <!-- Parameters -->
+    <rosparam file="$(find lio_sam)/config/params.yaml" command="load" />
+
+    <!--- LOAM -->
+    <include file="$(find lio_sam)/launch/include/module_loam.launch" />
+
+    <!--- Robot State TF -->
+    <include file="$(find lio_sam)/launch/include/module_robot_state_publisher.launch" />
+
+    <!--- Run Navsat -->
+    <include file="$(find lio_sam)/launch/include/module_navsat.launch" />
+
+    <!--- Run Rviz-->
+    <include file="$(find lio_sam)/launch/include/module_rviz.launch" />
+
+    <!-- Remap for jl -->
+    <node name="new_topic_publisher" pkg="lio_sam" type="new_topic_publisher" output="screen">
+        <param name="new_odom" value="/lidar_odom"/>
+        <param name="new_cloud" value="/lidar_cloud"/>
+        <param name="old_odom" value="/lio_sam/mapping/odometry"/>
+        <param name="old_cloud" value="/lio_sam/deskew/cloud_deskewed"/>
+        <param name="odom_frame" value="world"/>
+        <param name="cloud_frame" value="body"/>
+    </node>
+
+</launch>

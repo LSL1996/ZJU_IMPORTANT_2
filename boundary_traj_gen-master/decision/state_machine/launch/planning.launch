@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<launch>
+  <arg name="vel_limit" value="10.0" />
+  <arg name="acc_limit" value="2.0" />
+  <arg name="jerk_limit" value="15.0" />
+  <!-- min integral(T + rho_ctrl * u^T * u)dt -->
+  <arg name="rho_ctrl" value="0.1" />
+  <!-- discretized segment number -->
+  <arg name="seg_num" value="5" />
+
+  <node pkg="state_machine" type="state_machine_node" name="state_machine_node" output="screen" > 
+    <param name="poly_opt/rho" value="$(arg rho_ctrl)" type="double" />
+    <param name="poly_opt/vel_limit" value="$(arg vel_limit)" type="double" />
+    <param name="poly_opt/acc_limit" value="$(arg acc_limit)" type="double" />
+    <param name="poly_opt/jerk_limit" value="$(arg jerk_limit)" type="double" />
+    <param name="poly_opt/discretization" value="10" type="int" />
+    <param name="poly_opt/rho_vel" value="512.0" type="double" />
+    <param name="poly_opt/rho_acc" value="512.0" type="double" />
+    <param name="poly_opt/rho_jrk" value="512.0" type="double" />
+    
+    <param name="fsm/rho" value="$(arg rho_ctrl)" type="double"/>
+    <param name="fsm/seg_num" value="$(arg seg_num)" type="int"/>
+    <param name="fsm/vel_limit" value="$(arg vel_limit)" type="double" />
+    <param name="fsm/acc_limit" value="$(arg acc_limit)" type="double" />
+    <param name="fsm/jerk_limit" value="$(arg jerk_limit)" type="double" />
+  </node>
+    
+</launch>
